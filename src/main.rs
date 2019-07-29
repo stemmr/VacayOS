@@ -10,7 +10,9 @@ static HELLO: &[u8] = b"Hello World!";
 //cargo xrun to compile kernal and boot into QEMU
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    vga_buffer::print_something();
+    use core::fmt::Write;
+    vga_buffer::WRITER.lock().write_str("Hello again").unwrap();
+    write!(vga_buffer::WRITER.lock(), "fmt macros as {} and {}", 42,1.0/2.7).unwrap();
     loop {}
 }
 
